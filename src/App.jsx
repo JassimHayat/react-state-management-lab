@@ -1,4 +1,3 @@
-import js from '@eslint/js'
 import './App.css'
 import { useState } from 'react'
 
@@ -107,6 +106,13 @@ const App = () => {
     
     setZombieFighters(newZombieFighters)
 
+    /// add remove fighter
+  function handleRemoveFighter(fighter) {
+    setTeam(prev => prev.filter(f => f.id !== fighter.id));
+    setZombieFighters(prev => [...prev , fighter]);
+    setMoney(prev => prev + fighter.price);
+  }
+
     const newMoney = money - fighter.price
     setMoney(newMoney)
 
@@ -124,7 +130,12 @@ const App = () => {
             <p>price: {fighter.price}</p>
             <p>strength: {fighter.strength}</p>
             <p>agility: {fighter.agility}</p>
-            <button onClick={() => handleAddFighter(fighter)}>Add</button>
+            <button 
+              onClick={() => handleAddFighter(fighter)}
+              disabled={money < fighter.price}
+              >
+                {money < fighter.price ? "No enough Money": 'Add'}
+              </button>
           </li>
         ))}
       </ul>
